@@ -10,7 +10,7 @@ This is an interface that connects [LIRC](www.lirc.org) to MQTT.
     * lircd started with --listen option.
 
 * Install    
-`sudo npm install -g xyz2mqtt`
+`sudo npm install -g lirc2mqtt`
 
 
 * Start    
