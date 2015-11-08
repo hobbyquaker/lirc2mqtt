@@ -10,30 +10,30 @@ This is an interface that connects [LIRC](www.lirc.org) to MQTT.
     * lircd started with --listen option.
 
 * Install    
-````sudo npm install -g xyz2mqtt````
+`sudo npm install -g xyz2mqtt`
 
 
 * Start    
-````lirc2mqtt --help````  
+`lirc2mqtt --help`
 
 
 ## Topics and Payloads
 
 ### Receive
 
-````lirc/status/<remote>/<button>````
+`lirc/status/<remote>/<button>`
 
 Payload is the repeat counter.
 
 
-#### Send
+### Send
 
-````lirc/set/<remote>/<button>````
+`lirc/set/<remote>/<button>`
 
 Payload can be one of:
 
 * Empty (single button press)
-* "START" or "STOP" (start/stop continuous button press)
+* `START` or `STOP` (start/stop continuous button press)
 * An integer number (repeat count)
 
 
