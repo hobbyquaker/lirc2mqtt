@@ -1,5 +1,9 @@
 # lirc2mqtt
 
+[![License][mit-badge]][mit-url]
+[![NPM version](https://badge.fury.io/js/lirc2mqtt.svg)](http://badge.fury.io/js/lirc2mqtt)
+[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/lirc2mqtt.svg)](https://img.shields.io/gemnasium/hobbyquaker/lirc2mqtt.svg)
+
 This is an interface that connects [LIRC](www.lirc.org) to MQTT.
 
 
@@ -40,3 +44,6 @@ Payload can be one of:
 ## License
 
 MIT © [Sebastian Raff](https://github.com/hobbyquaker)
+
+[mit-badge]: https://img.shields.io/badge/License-MIT-blue.svg?style=flat
+[mit-url]: LICENSE
