@@ -2,7 +2,7 @@
 
 [![License][mit-badge]][mit-url]
 [![NPM version](https://badge.fury.io/js/lirc2mqtt.svg)](http://badge.fury.io/js/lirc2mqtt)
-[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/lirc2mqtt.svg)](https://img.shields.io/gemnasium/hobbyquaker/lirc2mqtt.svg)
+[![Dependency Status](https://img.shields.io/gemnasium/hobbyquaker/lirc2mqtt.svg)](https://gemnasium.com/github.com/hobbyquaker/lirc2mqtt)
 
 This is an interface that connects [LIRC](www.lirc.org) to MQTT.
 
