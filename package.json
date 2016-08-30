@@ -3,7 +3,7 @@
   "description": "Connect LIRC to MQTT",
   "author": "Sebastian Raff <hq@ccu.io> (https://github.com/hobbyquaker)",
   "license": "MIT",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "preferGlobal": true,
   "bin": "./index.js",
   "dependencies": {
