@@ -24,7 +24,7 @@
     "remote",
     "control"
   ],
-  "repository": "https://github.com/mqtt-smarthome/lirc2mqtt",
+  "repository": "https://github.com/hobbyquaker/lirc2mqtt",
   "scripts": {
     "test": "camo-purge ; xo --space 4 --ignore test.js && nyc mocha test.js && nyc report --reporter=text-lcov | coveralls --force"
   },
