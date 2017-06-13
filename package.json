@@ -3,24 +3,33 @@
   "description": "Connect LIRC to MQTT",
   "author": "Sebastian Raff <hq@ccu.io> (https://github.com/hobbyquaker)",
   "license": "MIT",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "engines": {
+    "node": ">=4.5.0"
+  },
   "preferGlobal": true,
   "bin": "./index.js",
   "dependencies": {
     "lirc-client": "^1.0.0",
-    "mqtt": "^1.14.1",
+    "mqtt": "^2.8.2",
     "yalm": "^4.0.2",
-    "yargs": "^5.0.0"
+    "yargs": "^8.0.2"
   },
   "keywords": [
     "mqtt",
     "smarthome",
     "iot",
     "lirc",
-    "infrared"
+    "infrared",
+    "remote",
+    "control"
   ],
   "repository": "https://github.com/mqtt-smarthome/lirc2mqtt",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "xo --space 4"
+  },
+  "devDependencies": {
+    "camo-purge": "^1.0.2",
+    "xo": "^0.18.2"
   }
 }
