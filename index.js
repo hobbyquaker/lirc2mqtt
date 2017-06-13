@@ -62,6 +62,10 @@ lirc.on('disconnect', () => {
     mqtt.publish(config.name + '/connected', '1');
 });
 
+lirc.on('error', err => {
+    log.error('lirc', err);
+});
+
 lirc.on('receive', (remote, command, repeats) => {
     log.debug('receive', remote, command, repeats);
     const topic = config.n + '/status/' + remote + '/' + command;
