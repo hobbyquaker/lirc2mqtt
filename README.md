@@ -13,7 +13,7 @@ This is an interface that connects [LIRC](www.lirc.org) to MQTT.
 ## Getting started
 
 * Prerequisites
-    * [Node.js](www.nodejs.org) >= 0.10 (including npm). 
+    * [Node.js](www.nodejs.org) >= 6. 
     * lircd started with --listen option.
 
 * Install    
