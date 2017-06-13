@@ -57,9 +57,11 @@ lirc.on('connect', () => {
 });
 
 lirc.on('disconnect', () => {
-    log.info('lirc connection closed');
-    lircConnected = false;
-    mqtt.publish(config.name + '/connected', '1');
+    if (lircConnected) {
+        log.info('lirc connection closed');
+        lircConnected = false;
+        mqtt.publish(config.name + '/connected', '1');
+    }
 });
 
 lirc.on('error', err => {
