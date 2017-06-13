@@ -1,79 +1,83 @@
 #!/usr/bin/env node
 
-var pkg = require('./package.json');
-var config = require('./config.js');
-var log = require('yalm');
+const Mqtt = require('mqtt');
+const Lirc = require('lirc-client');
+const log = require('yalm');
+const pkg = require('./package.json');
+const config = require('./config.js');
+
 log.setLevel(config.v);
 
 log.info(pkg.name + ' ' + pkg.version + ' starting');
 
-var lircConnected;
+let lircConnected;
 
 log.info('lirc trying to connect on ' + config.lircHost + ':' + config.lircPort);
 
-var lirc = require('lirc-client')({
+const lirc = new Lirc({
     host: config.lircHost,
     port: config.lircPort
 });
 
-lirc.on('connect', function () {
-    log.info('lirc connected');
-    lircConnected = true;
-    mqtt.publish(config.name + '/connected', '2');
-});
+if (typeof config.topic !== 'string') {
+    config.topic = '';
+}
+if (config.topic !== '' && !config.topic.match(/\/$/)) {
+    config.topic += '/';
+}
 
-lirc.on('disconnect', function () {
-    log.info('lirc connection closed');
-    lircConnected = false;
-    mqtt.publish(config.name + '/connected', '1');
-});
-
-lirc.on('receive', function (remote, command, repeats) {
-    log.debug('receive', remote, command, repeats);
-    var topic = config.n + '/status/' + remote + '/' + command;
-    var payload;
-    if (config.json) {
-        payload = JSON.stringify({
-            val: parseInt(repeats, 10)
-        });
-    } else {
-        payload = '' + parseInt(repeats, 10);
-    }
-    log.debug('mqtt >', topic, payload);
-    mqtt.publish(topic, payload);
-});
-
-var Mqtt = require('mqtt');
-
-if (typeof config.topic !== 'string') config.topic = '';
-if (config.topic !== '' && !config.topic.match(/\/$/)) config.topic = config.topic + '/';
-
-var mqttConnected;
+let mqttConnected;
 
 log.info('mqtt trying to connect', config.url);
-var mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0'}});
+const mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0'}});
 
-mqtt.on('connect', function () {
+mqtt.on('connect', () => {
     mqttConnected = true;
     log.info('mqtt connected ' + config.url);
     mqtt.publish(config.name + '/connected', lircConnected ? '2' : '1');
     log.info('mqtt subscribe', config.name + '/set/#');
     mqtt.subscribe(config.name + '/set/+/+');
-
 });
 
-mqtt.on('close', function () {
+mqtt.on('close', () => {
     if (mqttConnected) {
         mqttConnected = false;
         log.info('mqtt closed ' + config.url);
     }
 });
 
-mqtt.on('error', function () {
-    log.error('mqtt error ' + config.url);
+mqtt.on('error', err => {
+    log.error('mqtt', err);
 });
 
-mqtt.on('message', function (topic, payload) {
+lirc.on('connect', () => {
+    log.info('lirc connected');
+    lircConnected = true;
+    mqtt.publish(config.name + '/connected', '2');
+});
+
+lirc.on('disconnect', () => {
+    log.info('lirc connection closed');
+    lircConnected = false;
+    mqtt.publish(config.name + '/connected', '1');
+});
+
+lirc.on('receive', (remote, command, repeats) => {
+    log.debug('receive', remote, command, repeats);
+    const topic = config.n + '/status/' + remote + '/' + command;
+    let payload;
+    if (config.json) {
+        payload = JSON.stringify({
+            val: parseInt(repeats, 10)
+        });
+    } else {
+        payload = String(parseInt(repeats, 10));
+    }
+    log.debug('mqtt >', topic, payload);
+    mqtt.publish(topic, payload);
+});
+
+mqtt.on('message', (topic, payload) => {
     payload = payload.toString();
     log.debug('mqtt <', topic, payload);
 
@@ -82,11 +86,9 @@ mqtt.on('message', function (topic, payload) {
         return;
     }
 
-    var parts = topic.split('/');
-    var remote = parts[2];
-    var key = parts[3];
-    var repeats = 0;
-    var cmd = 'SEND_ONCE';
+    const [, , remote, key] = topic.split('/');
+    let repeats = 0;
+    let cmd = 'SEND_ONCE';
 
     if (payload.toUpperCase() === 'START') {
         cmd = 'SEND_START';
@@ -97,13 +99,12 @@ mqtt.on('message', function (topic, payload) {
     }
 
     if (repeats) {
-        lirc.cmd(cmd, remote, key, repeats, function () {
+        lirc.cmd(cmd, remote, key, repeats, () => {
             log.debug('lirc >', cmd, remote, key, repeats);
         });
     } else {
-        lirc.cmd(cmd, remote, key, function () {
+        lirc.cmd(cmd, remote, key, () => {
             log.debug('lirc >', cmd, remote, key);
         });
     }
-
 });
