@@ -26,10 +26,16 @@
   ],
   "repository": "https://github.com/mqtt-smarthome/lirc2mqtt",
   "scripts": {
-    "test": "xo --space 4"
+    "test": "camo-purge ; xo --space 4 --ignore test.js && nyc mocha test.js && nyc report --reporter=text-lcov | ncoveralls --force"
   },
   "devDependencies": {
-    "camo-purge": "^1.0.2",
-    "xo": "^0.18.2"
+    "camo-purge": "latest",
+    "coveralls": "latest",
+    "lirc-simulator": "latest",
+    "mocha": "latest",
+    "nyc": "latest",
+    "should": "latest",
+    "stream-splitter": "latest",
+    "xo": "latest"
   }
 }

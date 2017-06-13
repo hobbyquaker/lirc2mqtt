@@ -1,0 +1,5 @@
+test.js
+.travis.yml
+.gitignore
+.nyc_output
+coverage
