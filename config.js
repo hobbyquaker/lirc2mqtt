@@ -5,6 +5,7 @@ const config = require('yargs')
     .describe('u', 'mqtt broker url. See https://github.com/mqttjs/MQTT.js#connect-using-a-url')
     .describe('l', 'lircd host')
     .describe('p', 'lircd port')
+    .describe('s', 'lircd socket. possible values: "/var/run/lirc/lircd"')
     .describe('h', 'show help')
     .alias({
         h: 'help',
@@ -12,7 +13,8 @@ const config = require('yargs')
         u: 'url',
         v: 'verbosity',
         l: 'lirc-host',
-        p: 'lirc-port'
+        p: 'lirc-port',
+        s: 'lirc-socket',
     })
     .default({
         u: 'mqtt://127.0.0.1',
@@ -20,7 +22,7 @@ const config = require('yargs')
         v: 'info',
         l: '127.0.0.1',
         p: 8765,
-        i: 60
+        i: 60,
     })
     .version()
     .help('help')

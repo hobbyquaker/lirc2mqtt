@@ -14,6 +14,13 @@ let lircConnected;
 
 log.info('lirc trying to connect on ' + config.lircHost + ':' + config.lircPort);
 
+const lircOptions = config.lircSocket ? {
+  path: config.lircSocket,
+} : {
+    host: config.lircHost,
+    port: config.lircPort
+};
+
 const lirc = new Lirc({
     host: config.lircHost,
     port: config.lircPort
