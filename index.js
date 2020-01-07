@@ -28,8 +28,17 @@ if (config.topic !== '' && !config.topic.match(/\/$/)) {
 
 let mqttConnected;
 
-log.info('mqtt trying to connect', config.url);
-const mqtt = Mqtt.connect(config.url, {will: {topic: config.name + '/connected', payload: '0'}});
+let mqttOptions = {will: {topic: config.name + '/connected', payload: '0'}};
+if (typeof config.username === "string" && typeof config.password === "string") {
+    mqttOptions.username = config.username;
+    mqttOptions.password = config.password;
+    log.info('mqtt trying to connect with username and password', config.url, config.username);
+} else {
+    log.info('mqtt trying to connect anonymously', config.url);
+}
+
+const mqtt = Mqtt.connect(config.url, mqttOptions);
+
 
 mqtt.on('connect', () => {
     mqttConnected = true;
